@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slideshow para Noiva e Noivo</title>
+    <style>
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            margin: 0;
+            overflow: hidden;
+            background-color: #f8f8f8; /* Cor de fundo suave */
+        }
+
+        #slideshow-container {
+            position: relative;
+            max-width: 60%;
+            margin: auto;
+            overflow: hidden;
+            border: 10px solid #fff; /* Moldura branca */
+            border-radius: 15px; /* Cantos arredondados */
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        #left-photo, #right-photo {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px; /* Largura da foto do noivo/noiva */
+            height: 100px; /* Altura da foto do noivo/noiva */
+            border-radius: 50%; /* Foto redonda */
+        }
+
+        #left-photo {
+            left: 10px;
+            height: 100%;
+            width: 350px;
+        }
+
+        #right-photo {
+            right: 10px;
+            height: 100%;
+            width: 350px;
+        }
+
+        #left-photo img,
+        #right-photo img {
+            position: absolute;
+            width: 100%; /* Preencher completamente */
+            height: 100%; /* Preencher completamente */
+            object-fit: cover; /* Manter a proporção e cortar se necessário */
+            z-index: 2; /* Colocar a foto sobre o slideshow */
+        }
+
+        #message-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #message {
+            font-size: 18px;
+            color: #555; /* Cor do texto */
+            margin: 10px 0;
+        }
+    </style>
+    <!-- Adicionando a fonte Cormorant Garamond -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="slideshow-container" onclick="expandSlide()">
+    <div class="mySlides" data-message="Mensagem para os Noivos">
+        <img src="./foto1.jpeg" alt="Noiva">
+    </div>
+
+    <div class="mySlides" data-message="Mensagem para os Noivos">
+        <img src="./foto2.jpeg" alt="Noivo">
+    </div>
+
+    <div class="mySlides" data-message="Mensagem para os Noivos">
+        <img src="./foto3.jpeg" alt="Noivo">
+    </div>
+
+    <div class="mySlides" data-message="Mensagem para os Noivos">
+        <img src="./foto5.jpeg" alt="Noivo">
+    </div>
+
+    <div class="mySlides" data-message="Mensagem para os Noivos">
+        <img src="./foto4.jpeg" alt="Noivo">
+    </div>
+
+    <!-- Adicione mais slides conforme necessário -->
+</div>
+
+<div id="left-photo">
+    <img src="./noivo.jpeg" alt="Noiva">
+</div>
+
+<div id="right-photo">
+    <img src="./noiva.jpeg" alt="Noivo">
+</div>
+
+<div id="message-container">
+    <p id="message"></p>
+</div>
+
+<script>
+    let slideIndex = 0;
+
+    function showSlides() {
+        const slides = document.getElementsByClassName("mySlides");
+
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+
+        slideIndex++;
+
+        if (slideIndex > slides.length) {
+            slideIndex = 1;
+        }
+
+        slides[slideIndex - 1].style.display = "block";
+        updateMessage(slides[slideIndex - 1]); // Atualiza a mensagem conforme o slide atual
+        setTimeout(showSlides, 5000); // Altere o tempo de transição aqui (5000 = 5 segundos)
+    }
+
+    function updateMessage(slide) {
+        const messageContainer = document.getElementById("message");
+        const dataMessage = slide.getAttribute("data-message");
+        messageContainer.innerText = dataMessage;
+    }
+
+    function expandSlide() {
+        const slideshowContainer = document.getElementById("slideshow-container");
+
+        if (slideshowContainer.requestFullscreen) {
+            slideshowContainer.requestFullscreen();
+        } else if (slideshowContainer.mozRequestFullScreen) {
+            slideshowContainer.mozRequestFullScreen();
+        } else if (slideshowContainer.webkitRequestFullscreen) {
+            slideshowContainer.webkitRequestFullscreen();
+        } else if (slideshowContainer.msRequestFullscreen) {
+            slideshowContainer.msRequestFullscreen();
+        }
+    }
+
+    showSlides();
+</script>
+
+</body>
+</html>
