@@ -69,9 +69,35 @@
         }
 
         #message {
-            font-size: 18px;
-            color: #555; /* Cor do texto */
+            font-size: 20px; /* Aumenta o tamanho do texto */
+            color: #333; /* Cor mais escura para melhor legibilidade */
             margin: 10px 0;
+        }
+
+        #slideshow-container:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Sombra mais evidente ao passar o mouse */
+        }
+
+        #slideshow-container button {
+            position: absolute;
+            top: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #333;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            outline: none;
+        }
+
+        #slideshow-container button.prev {
+            left: 10px;
+        }
+
+        #slideshow-container button.next {
+            right: 10px;
         }
     </style>
     <!-- Adicionando a fonte Cormorant Garamond -->
@@ -110,20 +136,18 @@
 
     function showSlides() {
         const slides = document.getElementsByClassName("mySlides");
-
         for (let i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";
         }
 
         slideIndex++;
-
         if (slideIndex > slides.length) {
             slideIndex = 1;
         }
 
         slides[slideIndex - 1].style.display = "block";
-        updateMessage(slides[slideIndex - 1]); // Atualiza a mensagem conforme o slide atual
-        setTimeout(showSlides, 5000); // Altere o tempo de transição aqui (5000 = 5 segundos)
+        updateMessage(slides[slideIndex - 1]);
+        setTimeout(showSlides, 5000);
     }
 
     function updateMessage(slide) {
@@ -132,9 +156,24 @@
         messageContainer.innerText = dataMessage;
     }
 
-    function expandSlide() {
-        const slideshowContainer = document.getElementById("slideshow-container");
+    function prevSlide() {
+        slideIndex--;
+        if (slideIndex < 1) {
+            slideIndex = slides.length;
+        }
+        showSlides();
+    }
 
+    function nextSlide() {
+        slideIndex++;
+        if (slideIndex > slides.length) {
+            slideIndex = 1;
+        }
+        showSlides();
+    }
+
+    document.getElementById("slideshow-container").addEventListener("click", function () {
+        const slideshowContainer = this;
         if (slideshowContainer.requestFullscreen) {
             slideshowContainer.requestFullscreen();
         } else if (slideshowContainer.mozRequestFullScreen) {
@@ -144,7 +183,7 @@
         } else if (slideshowContainer.msRequestFullscreen) {
             slideshowContainer.msRequestFullscreen();
         }
-    }
+    });
 
     showSlides();
 </script>
