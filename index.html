@@ -1,192 +1,124 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slideshow</title>
-    <style>
-        body {
-            font-family: 'Cormorant Garamond', serif;
-            margin: 0;
-            overflow: hidden;
-            background-color: #f8f8f8; /* Cor de fundo suave */
-        }
+    <link rel="stylesheet" href="styles.css">
+    <title>Slideshow de Casamento</title>
 
-        #slideshow-container {
-            position: relative;
-            max-width: 60%;
-            margin: auto;
-            overflow: hidden;
-            border: 10px solid #fff; /* Moldura branca */
-            border-radius: 15px; /* Cantos arredondados */
-            width: 100%;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
-        }
+<style>
 
-        .mySlides {
-            display: none;
-        }
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Oculta a barra de rolagem vertical */
+}
 
-        img {
-            width: 100%;
-            height: auto;
-        }
+#slideshow-container {
+    width: 100%;
+    height: 100vh; /* 100% da altura da viewport */
+    position: relative;
+}
 
-        #left-photo, #right-photo {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 100px; /* Largura da foto do noivo/noiva */
-            height: 100px; /* Altura da foto do noivo/noiva */
-            border-radius: 50%; /* Foto redonda */
-        }
+.slide {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
 
-        #left-photo {
-            left: 10px;
-            height: 100%;
-            width: 170px;
-        }
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantém a proporção da imagem e cobre toda a área */
+}
 
-        #right-photo {
-            right: 10px;
-            height: 100%;
-            width: 170px;
-        }
 
-        #left-photo img,
-        #right-photo img {
-            position: absolute;
-            width: 100%; /* Preencher completamente */
-            height: 100%; /* Preencher completamente */
-            object-fit: cover; /* Manter a proporção e cortar se necessário */
-            z-index: 2; /* Colocar a foto sobre o slideshow */
-        }
+</style>
 
-        #message-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        #message {
-            font-size: 20px; /* Aumenta o tamanho do texto */
-            color: #333; /* Cor mais escura para melhor legibilidade */
-            margin: 10px 0;
-        }
-
-        #slideshow-container:hover {
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Sombra mais evidente ao passar o mouse */
-        }
-
-        #slideshow-container button {
-            position: absolute;
-            top: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #333;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            outline: none;
-        }
-
-        #slideshow-container button.prev {
-            left: 10px;
-        }
-
-        #slideshow-container button.next {
-            right: 10px;
-        }
-    </style>
-    <!-- Adicionando a fonte Cormorant Garamond -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<div id="slideshow-container" onclick="expandSlide()">
-    <div class="mySlides" data-message="Mensagem para os Noivos">
-        <img src="./foto1.jpeg" alt="Noiva">
+    <div id="slideshow-container">
+        <!-- Aqui serão inseridas as imagens dinamicamente com JavaScript -->
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
 
-    <div class="mySlides" data-message="Mensagem para os Noivos">
-        <img src="./foto2.jpeg" alt="Noivo">
-    </div>
+$(document).ready(function () {
+    // Adicione as URLs das suas imagens aqui
+    const imagens = [
+'',
+	'https://img.freepik.com/fotos-premium/os-noivos-no-casamento-perfeito_433905-931.jpg',
+	'https://assets-blog.pagseguro.uol.com.br/wp-content/2021/05/passos-para-planejar-um-casamento.jpg',
 
-    <div class="mySlides" data-message="Mensagem para os Noivos">
-        <img src="./foto3.jpeg" alt="Noivo">
-    </div>
+        'https://img.freepik.com/fotos-gratis/prepare-a-colocacao-de-anel-no-dedo-da-noiva_1157-338.jpg'
+    ];
 
-    <div class="mySlides" data-message="Mensagem para os Noivos">
-        <img src="./foto5.jpeg" alt="Noivo">
-    </div>
+    let currentIndex = 0;
 
-    <div class="mySlides" data-message="Mensagem para os Noivos">
-        <img src="./foto4.jpeg" alt="Noivo">
-    </div>
+function mostrarProximaImagem() {
+    if (currentIndex < imagens.length - 1) {
+        $('.slide').fadeOut(1000, function () {
+            $(this).attr('src', imagens[currentIndex]).fadeIn(1000);
+        });
 
-    <!-- Adicione mais slides conforme necessário -->
-</div>
+        currentIndex++;
+    } else {
+        clearInterval(intervalId); // Interrompe o intervalo
 
-
-
-<script>
-    let slideIndex = 0;
-
-    function showSlides() {
-        const slides = document.getElementsByClassName("mySlides");
-        for (let i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-
-        slideIndex++;
-        if (slideIndex > slides.length) {
-            slideIndex = 1;
-        }
-
-        slides[slideIndex - 1].style.display = "block";
-        updateMessage(slides[slideIndex - 1]);
-        setTimeout(showSlides, 5000);
+        // Aguarda 5 segundos antes de recarregar a página
+        setTimeout(function () {
+            location.reload();
+        }, 5000);
     }
+}
 
-    function updateMessage(slide) {
-        const messageContainer = document.getElementById("message");
-        const dataMessage = slide.getAttribute("data-message");
-        messageContainer.innerText = dataMessage;
-    }
+// Inicializa o slideshow
+const intervalId = setInterval(mostrarProximaImagem, 5000);
 
-    function prevSlide() {
-        slideIndex--;
-        if (slideIndex < 1) {
-            slideIndex = slides.length;
+
+
+
+    // Inicializa o slideshow
+    imagens.forEach(function (url, index) {
+        const $slide = $('<img>', {
+            class: 'slide',
+            src: url,
+            alt: 'Imagem do casamento'
+        });
+
+        if (index === 0) {
+            $slide.show();
         }
-        showSlides();
-    }
 
-    function nextSlide() {
-        slideIndex++;
-        if (slideIndex > slides.length) {
-            slideIndex = 1;
-        }
-        showSlides();
-    }
-
-    document.getElementById("slideshow-container").addEventListener("click", function () {
-        const slideshowContainer = this;
-        if (slideshowContainer.requestFullscreen) {
-            slideshowContainer.requestFullscreen();
-        } else if (slideshowContainer.mozRequestFullScreen) {
-            slideshowContainer.mozRequestFullScreen();
-        } else if (slideshowContainer.webkitRequestFullscreen) {
-            slideshowContainer.webkitRequestFullscreen();
-        } else if (slideshowContainer.msRequestFullscreen) {
-            slideshowContainer.msRequestFullscreen();
-        }
+        $('#slideshow-container').append($slide);
     });
 
-    showSlides();
-</script>
+    // Atualiza a imagem a cada 5 segundos (5000 milissegundos)
+    setInterval(mostrarProximaImagem, 5000);
+});
 
+
+document.getElementById("slideshow-container").addEventListener("click", function () {
+    const slideshowContainer = this;
+
+    if (slideshowContainer.requestFullscreen) {
+        slideshowContainer.requestFullscreen();
+    } else if (slideshowContainer.mozRequestFullScreen) {
+        slideshowContainer.mozRequestFullScreen();
+    } else if (slideshowContainer.webkitRequestFullscreen) {
+        slideshowContainer.webkitRequestFullscreen();
+    } else if (slideshowContainer.msRequestFullscreen) {
+        slideshowContainer.msRequestFullscreen();
+    }
+});
+
+// Atualiza a imagem a cada 5 segundos (5000 milissegundos)
+setInterval(mostrarProximaImagem, 5000);
+
+
+
+
+</script>
 </body>
 </html>
