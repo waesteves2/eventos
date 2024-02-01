@@ -60,8 +60,8 @@ $(document).ready(function () {
 
 function mostrarProximaImagem() {
     if (currentIndex < imagens.length - 1) {
-        $('.slide').fadeOut(5000, function () {
-            $(this).attr('src', imagens[currentIndex]).fadeIn(5000);
+        $('.slide').fadeOut(1000, function () {
+            $(this).attr('src', imagens[currentIndex]).fadeIn(1000);
         });
 
         currentIndex++;
@@ -76,7 +76,7 @@ function mostrarProximaImagem() {
 }
 
 // Inicializa o slideshow
-const intervalId = setInterval(mostrarProximaImagem, 10000);
+const intervalId = setInterval(mostrarProximaImagem, 0000);
 
 
 
