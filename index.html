@@ -12,22 +12,18 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            /* Alterado de 'cover' para 'contain' */
         }
-
 
         body,
         html {
             margin: 0;
             padding: 0;
             overflow: hidden;
-            /* Oculta a barra de rolagem vertical */
         }
 
         #slideshow-container {
             width: 100%;
             height: 100vh;
-            /* 100% da altura da viewport */
             position: relative;
         }
 
@@ -47,9 +43,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-
         $(document).ready(function () {
-            // Adicione as URLs das suas imagens aqui
             const imagens = [
                 '',
                 'foto1.jpg',
@@ -132,29 +126,17 @@
             let currentIndex = 0;
 
             function mostrarProximaImagem() {
-                if (currentIndex < imagens.length - 1) {
-                    $('.slide').fadeOut(1000, function () {
-                        $(this).attr('src', imagens[currentIndex]).fadeIn(1000);
-                    });
+                $('.slide').fadeOut(1000, function () {
+                    $(this).attr('src', imagens[currentIndex]).fadeIn(1000);
+                });
 
-                    currentIndex++;
-                } else {
-                    clearInterval(intervalId); // Interrompe o intervalo
+                currentIndex++;
 
-                    // Aguarda 5 segundos antes de recarregar a página
-                    setTimeout(function () {
-                        location.reload();
-                    }, 5000);
+                if (currentIndex >= imagens.length) {
+                    currentIndex = 0;
                 }
             }
 
-            // Inicializa o slideshow
-            const intervalId = setInterval(mostrarProximaImagem, 10000);
-
-
-
-
-            // Inicializa o slideshow
             imagens.forEach(function (url, index) {
                 const $slide = $('<img>', {
                     class: 'slide',
@@ -169,10 +151,8 @@
                 $('#slideshow-container').append($slide);
             });
 
-            // Atualiza a imagem a cada 5 segundos (5000 milissegundos)
-            setInterval(mostrarProximaImagem, 5000);
+            setInterval(mostrarProximaImagem, 5000); // Inicia o slideshow após todas as imagens serem carregadas
         });
-
 
         document.getElementById("slideshow-container").addEventListener("click", function () {
             const slideshowContainer = this;
@@ -187,13 +167,6 @@
                 slideshowContainer.msRequestFullscreen();
             }
         });
-
-        // Atualiza a imagem a cada 5 segundos (5000 milissegundos)
-        setInterval(mostrarProximaImagem, 5000);
-
-
-
-
     </script>
 </body>
 
