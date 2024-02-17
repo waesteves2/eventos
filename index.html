@@ -1,45 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Slideshow de Casamento</title>
 
-<style>
-
-	img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Alterado de 'cover' para 'contain' */
-}
-
-
-body, html {
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Oculta a barra de rolagem vertical */
-}
-
-#slideshow-container {
-    width: 100%;
-    height: 100vh; /* 100% da altura da viewport */
-    position: relative;
-}
-
-.slide {
-    display: none;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
+    <style>
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* Alterado de 'cover' para 'contain' */
+        }
 
 
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* Oculta a barra de rolagem vertical */
+        }
 
+        #slideshow-container {
+            width: 100%;
+            height: 100vh;
+            /* 100% da altura da viewport */
+            position: relative;
+        }
 
-</style>
+        .slide {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 
 </head>
+
 <body>
     <div id="slideshow-container">
         <!-- Aqui serão inseridas as imagens dinamicamente com JavaScript -->
@@ -47,138 +48,139 @@ body, html {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
 
-$(document).ready(function () {
-    // Adicione as URLs das suas imagens aqui
-    const imagens = [
-    '',
-    'foto1.jpg',
-    'foto2.jpg',
-    'foto3.jpg',
-    'foto4.jpg',
-    'foto5.jpg',
-    'foto6.jpg',
-    'foto7.jpg',
-    'foto8.jpg',
-    'foto9.jpg',
-    'foto10.jpg',
-    'foto11.jpg',
-    'foto12.jpg',
-    'foto13.jpg',
-    'foto14.jpg',
-    'foto15.jpeg',
-    'foto16.jpeg',
-    'foto17.jpeg',
-    'foto18.jpeg',
-    'foto19.jpeg',
-    'foto20.jpeg',
-    'foto21.jpeg',
-    'foto22.jpeg',
-    'foto23.jpeg',
-    'foto24.jpeg',
-    'foto25.jpeg',
-    'foto26.jpeg',
-    'foto27.jpeg',
-    'foto28.jpeg',
-    'foto29.jpg',
-    'foto30.jpg',
-    'foto31.jpg',
-    'foto32.jpg',
-    'foto33.jpg',
-    'foto34.jpg',
-    'foto35.jpg',
-    'foto36.jpg',
-    'foto37.jpg',
-    'foto38.jpg',
-    'foto39.jpg',
-    'foto40.jpg',
-    'foto41.jpg',
-    'foto42.jpg',
-    'foto43.jpg',
-    'foto44.jpg',
-    'foto45.jpg',
-    'foto46.jpg',
-    'foto47.jpg',
-    'foto48.jpg',
-	        'foto49.jpg',
-	        'foto50.jpg',
-    'foto51.jpg',
-    'foto52.jpg',
-
-
-	    
-	    
+        $(document).ready(function () {
+            // Adicione as URLs das suas imagens aqui
+            const imagens = [
+                '',
+                'foto1.jpg',
+                'foto2.jpg',
+                'foto3.jpg',
+                'foto4.jpg',
+                'foto5.jpg',
+                'foto6.jpg',
+                'foto7.jpg',
+                'foto8.jpg',
+                'foto9.jpg',
+                'foto10.jpg',
+                'foto11.jpg',
+                'foto12.jpg',
+                'foto13.jpg',
+                'foto14.jpg',
+                'foto15.jpeg',
+                'foto16.jpeg',
+                'foto17.jpeg',
+                'foto18.jpeg',
+                'foto19.jpeg',
+                'foto20.jpeg',
+                'foto21.jpeg',
+                'foto22.jpeg',
+                'foto23.jpeg',
+                'foto24.jpeg',
+                'foto25.jpeg',
+                'foto26.jpeg',
+                'foto27.jpeg',
+                'foto28.jpeg',
+                'foto29.jpg',
+                'foto30.jpg',
+                'foto31.jpg',
+                'foto32.jpg',
+                'foto33.jpg',
+                'foto34.jpg',
+                'foto35.jpg',
+                'foto36.jpg',
+                'foto37.jpg',
+                'foto38.jpg',
+                'foto39.jpg',
+                'foto40.jpg',
+                'foto41.jpg',
+                'foto42.jpg',
+                'foto43.jpg',
+                'foto44.jpg',
+                'foto45.jpg',
+                'foto46.jpg',
+                'foto47.jpg',
+                'foto48.jpg',
+                'foto49.jpg',
+                'foto50.jpg',
+                'foto51.jpg',
+                'foto52.jpg',
 
 
 
 
-	   
-    ];
 
-    let currentIndex = 0;
 
-function mostrarProximaImagem() {
-    if (currentIndex < imagens.length - 1) {
-        $('.slide').fadeOut(1000, function () {
-            $(this).attr('src', imagens[currentIndex]).fadeIn(1000);
+
+
+
+            ];
+
+            let currentIndex = 0;
+
+            function mostrarProximaImagem() {
+                if (currentIndex < imagens.length - 1) {
+                    $('.slide').fadeOut(1000, function () {
+                        $(this).attr('src', imagens[currentIndex]).fadeIn(1000);
+                    });
+
+                    currentIndex++;
+                } else {
+                    clearInterval(intervalId); // Interrompe o intervalo
+
+                    // Aguarda 5 segundos antes de recarregar a página
+                    setTimeout(function () {
+                        location.reload();
+                    }, 5000);
+                }
+            }
+
+            // Inicializa o slideshow
+            const intervalId = setInterval(mostrarProximaImagem, 10000);
+
+
+
+
+            // Inicializa o slideshow
+            imagens.forEach(function (url, index) {
+                const $slide = $('<img>', {
+                    class: 'slide',
+                    src: url,
+                    alt: 'Imagem do casamento'
+                });
+
+                if (index === 0) {
+                    $slide.show();
+                }
+
+                $('#slideshow-container').append($slide);
+            });
+
+            // Atualiza a imagem a cada 5 segundos (5000 milissegundos)
+            setInterval(mostrarProximaImagem, 5000);
         });
 
-        currentIndex++;
-    } else {
-        clearInterval(intervalId); // Interrompe o intervalo
 
-        // Aguarda 5 segundos antes de recarregar a página
-        setTimeout(function () {
-            location.reload();
-        }, 5000);
-    }
-}
+        document.getElementById("slideshow-container").addEventListener("click", function () {
+            const slideshowContainer = this;
 
-// Inicializa o slideshow
-const intervalId = setInterval(mostrarProximaImagem, 10000);
-
-
-
-
-    // Inicializa o slideshow
-    imagens.forEach(function (url, index) {
-        const $slide = $('<img>', {
-            class: 'slide',
-            src: url,
-            alt: 'Imagem do casamento'
+            if (slideshowContainer.requestFullscreen) {
+                slideshowContainer.requestFullscreen();
+            } else if (slideshowContainer.mozRequestFullScreen) {
+                slideshowContainer.mozRequestFullScreen();
+            } else if (slideshowContainer.webkitRequestFullscreen) {
+                slideshowContainer.webkitRequestFullscreen();
+            } else if (slideshowContainer.msRequestFullscreen) {
+                slideshowContainer.msRequestFullscreen();
+            }
         });
 
-        if (index === 0) {
-            $slide.show();
-        }
-
-        $('#slideshow-container').append($slide);
-    });
-
-    // Atualiza a imagem a cada 5 segundos (5000 milissegundos)
-    setInterval(mostrarProximaImagem, 5000);
-});
-
-
-document.getElementById("slideshow-container").addEventListener("click", function () {
-    const slideshowContainer = this;
-
-    if (slideshowContainer.requestFullscreen) {
-        slideshowContainer.requestFullscreen();
-    } else if (slideshowContainer.mozRequestFullScreen) {
-        slideshowContainer.mozRequestFullScreen();
-    } else if (slideshowContainer.webkitRequestFullscreen) {
-        slideshowContainer.webkitRequestFullscreen();
-    } else if (slideshowContainer.msRequestFullscreen) {
-        slideshowContainer.msRequestFullscreen();
-    }
-});
-
-// Atualiza a imagem a cada 5 segundos (5000 milissegundos)
-setInterval(mostrarProximaImagem, 5000);
+        // Atualiza a imagem a cada 5 segundos (5000 milissegundos)
+        setInterval(mostrarProximaImagem, 5000);
 
 
 
 
-</script>
+    </script>
 </body>
+
 </html>
