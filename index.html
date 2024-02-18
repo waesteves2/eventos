@@ -5,47 +5,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Slideshow de Casamento</title>
+    <title>Álbum de Casamento</title>
 
     <style>
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        body,
-        html {
+        body {
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
         }
 
-        #slideshow-container {
+        #album-title {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffd700; /* Cor do título */
+            color: #333; /* Cor do texto */
+            font-size: 36px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        #album-cover {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        #album-cover img {
+            width: 70%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #album-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .foto {
             width: 100%;
-            height: 100vh;
-            position: relative;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        .slide {
+        .foto:hover {
+            transform: scale(1.05);
+        }
+
+        .modal {
             display: none;
-            position: absolute;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 800px;
+            margin-top: 10%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            #album-title {
+                font-size: 28px;
+            }
+            #album-cover img {
+                width: 90%;
+                max-width: 400px;
+            }
         }
     </style>
-
 </head>
 
 <body>
-    <div id="slideshow-container">
+    <div id="album-title">
+        <h2>Álbum de Casamento</h2>
+    </div>
+
+    
+
+    <div id="album-container">
         <!-- Aqui serão inseridas as imagens dinamicamente com JavaScript -->
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
+
     <script>
-        $(document).ready(function () {
+        document.addEventListener("DOMContentLoaded", function () {
             const imagens = [
-                '',
                 'foto1.jpg',
                 'foto2.jpg',
                 'foto3.jpg',
@@ -122,57 +211,35 @@
                 'foto75.jpg',
                 'foto76.jpg',
                 'foto77.jpg',
-
-
-
-
-
-
             ];
 
-            let currentIndex = 0;
+            const albumContainer = document.getElementById('album-container');
 
-            function mostrarProximaImagem() {
-                $('.slide').fadeOut(1000, function () {
-                    $(this).attr('src', imagens[currentIndex]).fadeIn(1000);
+            imagens.forEach(function (url) {
+                const foto = document.createElement('img');
+                foto.src = url;
+                foto.classList.add('foto');
+                foto.alt = 'Foto do casamento';
+                albumContainer.appendChild(foto);
+
+                foto.addEventListener('click', function () {
+                    document.getElementById('myModal').style.display = "block";
+                    document.getElementById('img01').src = this.src;
                 });
-
-                currentIndex++;
-
-                if (currentIndex >= imagens.length) {
-                    currentIndex = 0;
-                }
-            }
-
-            imagens.forEach(function (url, index) {
-                const $slide = $('<img>', {
-                    class: 'slide',
-                    src: url,
-                    alt: 'Imagem do casamento'
-                });
-
-                if (index === 0) {
-                    $slide.show();
-                }
-
-                $('#slideshow-container').append($slide);
             });
 
-            setInterval(mostrarProximaImagem, 5000); // Inicia o slideshow após todas as imagens serem carregadas
-        });
+            const modal = document.getElementById('myModal');
+            const span = document.getElementsByClassName("close")[0];
 
-        document.getElementById("slideshow-container").addEventListener("click", function () {
-            const slideshowContainer = this;
+            span.onclick = function () {
+                modal.style.display = "none";
+            };
 
-            if (slideshowContainer.requestFullscreen) {
-                slideshowContainer.requestFullscreen();
-            } else if (slideshowContainer.mozRequestFullScreen) {
-                slideshowContainer.mozRequestFullScreen();
-            } else if (slideshowContainer.webkitRequestFullscreen) {
-                slideshowContainer.webkitRequestFullscreen();
-            } else if (slideshowContainer.msRequestFullscreen) {
-                slideshowContainer.msRequestFullscreen();
-            }
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            };
         });
     </script>
 </body>
