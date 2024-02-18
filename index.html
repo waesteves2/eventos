@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <title>Álbum de Casamento</title>
 
     <style>
@@ -50,6 +49,10 @@
             padding: 20px;
         }
 
+        .foto-container {
+            position: relative;
+        }
+
         .foto {
             width: 100%;
             height: auto;
@@ -57,8 +60,10 @@
             transition: transform 0.2s;
         }
 
-        .foto:hover {
-            transform: scale(1.05);
+        .selecionar-foto {
+            position: absolute;
+            top: 10px;
+            right: 10px;
         }
 
         .modal {
@@ -104,28 +109,45 @@
             cursor: pointer;
         }
 
-        @media screen and (max-width: 768px) {
-            #album-title {
-                font-size: 28px;
-            }
-            #album-cover img {
-                width: 90%;
-                max-width: 400px;
-            }
+        .download-button {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .download-button button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+
+        .download-button button:last-child {
+            margin-right: 0;
+        }
+
+        .download-button button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 
 <body>
     <div id="album-title">
-        <h2>Álbum de Casamento</h2>
+        <h3>Álbum de Casamento</h3>
     </div>
-
-    
-
+    <div class="download-button">
+        <button id="select-all-button">Selecionar Todas</button>
+        <button id="download-selected-button">Baixar Selecionadas</button>
+    </div>
     <div id="album-container">
         <!-- Aqui serão inseridas as imagens dinamicamente com JavaScript -->
     </div>
+
+   
 
     <div id="myModal" class="modal">
         <span class="close">&times;</span>
@@ -216,15 +238,32 @@
             const albumContainer = document.getElementById('album-container');
 
             imagens.forEach(function (url) {
+                const fotoContainer = document.createElement('div');
+                fotoContainer.classList.add('foto-container');
                 const foto = document.createElement('img');
                 foto.src = url;
                 foto.classList.add('foto');
                 foto.alt = 'Foto do casamento';
-                albumContainer.appendChild(foto);
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('selecionar-foto');
+                fotoContainer.appendChild(foto);
+                fotoContainer.appendChild(checkbox);
+                albumContainer.appendChild(fotoContainer);
 
                 foto.addEventListener('click', function () {
                     document.getElementById('myModal').style.display = "block";
                     document.getElementById('img01').src = this.src;
+                });
+
+                checkbox.addEventListener('click', function (event) {
+                    event.stopPropagation(); // Evitar que o clique na caixa de seleção propague para a imagem
+                });
+
+                fotoContainer.addEventListener('click', function(event) {
+                    if(event.target !== checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                    }
                 });
             });
 
@@ -240,6 +279,33 @@
                     modal.style.display = "none";
                 }
             };
+
+            document.getElementById('select-all-button').addEventListener('click', function () {
+                const checkboxes = document.querySelectorAll('.selecionar-foto');
+                let allChecked = true;
+                checkboxes.forEach(function (checkbox) {
+                    if (!checkbox.checked) {
+                        allChecked = false;
+                        return;
+                    }
+                });
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = !allChecked;
+                });
+            });
+
+            document.getElementById('download-selected-button').addEventListener('click', function () {
+                const selectedImages = document.querySelectorAll('.foto-container input:checked');
+                selectedImages.forEach(function (checkbox) {
+                    const image = checkbox.previousSibling;
+                    const link = document.createElement('a');
+                    link.href = image.src;
+                    link.setAttribute('download', '');
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+            });
         });
     </script>
 </body>
